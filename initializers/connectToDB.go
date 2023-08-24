@@ -1,18 +1,21 @@
 package initializers
 
 import (
+	"os"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-// env variables
+// global variable to hold the db connection
+var DB *gorm.DB
 
+func ConnectToDB() {
+	var err error
+	dsn := `host=` + os.Getenv("DB_HOST") + ` user=` + os.Getenv("DB_USER") + ` password=` + os.Getenv("DB_PASSWORD") + ` dbname=` + os.Getenv("DB_NAME") + ` port=` + os.Getenv("DB_PORT") + ` sslmode=disable`
 
-func ConnectToDB() *gorm.DB {
-	dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
-	return db
 }
