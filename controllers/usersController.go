@@ -91,7 +91,13 @@ func Login(c *gin.Context) {
 	c.SetSameSite(http.SameSiteNoneMode)
 	c.SetCookie("token", tokenString, 3600, "", "", false, true)
 
-
 	// // respond
 	// c.JSON(http.StatusOK, gin.H{"token": tokenString})
+}
+
+func Validate(c *gin.Context) {
+	user, _ := c.Get("user")
+
+	c.JSON(http.StatusOK, gin.H{"user": user})
+
 }
